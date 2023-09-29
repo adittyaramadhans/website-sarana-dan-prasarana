@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -45,13 +46,26 @@ class CategoryController extends Controller
     {
         //
     }
+    public function updatecategory(Request $req){
+        // dd($req->all());
+        // $data = DB::table('categories')->where('id', $req->id)->update([
+        //     'category' => $req->category,
+        // ]);
+        $id = $req->idedit;
+        $data = Category::find($id);
+        // dd($data);
+        $data->category = $req->category;
+        $data->update();
+        return back();
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $data = DB::table('categories')->where('id', $id)->first();
+        return response()->json($data);
     }
 
     /**
